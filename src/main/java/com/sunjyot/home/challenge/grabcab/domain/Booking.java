@@ -1,5 +1,6 @@
 package com.sunjyot.home.challenge.grabcab.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Booking {
 
     @Id
@@ -21,16 +23,6 @@ public class Booking {
     private Long fromYAxis;
     private Long toXAxis;
     private Long toYAxis;
-
-    public Booking(Long id, Long userId, Long cabId, Long fromXAxis, Long fromYAxis, Long toXAxis, Long toYAxis) {
-        this.id = id;
-        this.userId = userId;
-        this.cabId = cabId;
-        this.fromXAxis = fromXAxis;
-        this.fromYAxis = fromYAxis;
-        this.toXAxis = toXAxis;
-        this.toYAxis = toYAxis;
-    }
 
     @Override
     public String toString(){

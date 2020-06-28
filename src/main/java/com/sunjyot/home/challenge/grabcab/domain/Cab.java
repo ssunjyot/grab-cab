@@ -1,5 +1,6 @@
 package com.sunjyot.home.challenge.grabcab.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class Cab {
 
     @Id
@@ -20,11 +22,4 @@ public class Cab {
 
     private Long XAxis;
     private Long YAxis;
-
-    public Cab(long id, Boolean occupied, long XAxis,long YAxis) {
-        this.id = id;
-        this.occupied = occupied;
-        this.XAxis = XAxis;
-        this.YAxis = YAxis;
-    }
 }
