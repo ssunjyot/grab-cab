@@ -33,10 +33,6 @@ public class BookingController {
         if(bookings.isEmpty())
             return  ResponseEntity.ok("User has not made any bookings yet!");
 
-        StringBuilder history = new StringBuilder();
-        for(Booking booking : bookings)
-            history.append("Booking ID : " + booking.getId() + " on "+ booking.getTimestamp().toString() + "\n");
-
-        return ResponseEntity.ok(history.toString());
+        return ResponseEntity.ok(bookings);
     }
 }
