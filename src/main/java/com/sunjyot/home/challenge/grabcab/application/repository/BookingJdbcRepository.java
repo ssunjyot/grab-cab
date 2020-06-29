@@ -12,7 +12,7 @@ public class BookingJdbcRepository {
     private JdbcTemplate jdbcTemplate;
 
     public int insert(Booking booking) {
-        return jdbcTemplate.update("INSERT INTO BOOKING (ID, USER_ID, CAB_ID, FROMXAXIS, FROMYAXIS, TOXAXIS, TOYAXIS) " + "values(?, ?, ?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO BOOKING (ID, USER_ID, CAB_ID, FROMXAXIS, FROMYAXIS, TOXAXIS, TOYAXIS, TIMESTAMP) " + "values(?, ?, ?, ?, ?, ?, ?, ?)",
                 new Object[] {
                         booking.getId(),
                         booking.getUserId(),
@@ -20,7 +20,8 @@ public class BookingJdbcRepository {
                         booking.getFromXAxis(),
                         booking.getFromYAxis(),
                         booking.getToXAxis(),
-                        booking.getToYAxis()
+                        booking.getToYAxis(),
+                        booking.getTimestamp()
                 });
     }
 }

@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -37,7 +38,8 @@ public class BookingService {
                 position.getFromXAxis(),
                 position.getFromYAxis(),
                 position.getToXAxis(),
-                position.getToYAxis());
+                position.getToYAxis(),
+                LocalDateTime.now());
 
         bookingJdbcRepository.insert(booking);
 
@@ -59,7 +61,7 @@ public class BookingService {
                 nearestCab = currentCab;
             }
         }
-        
+
         return nearestCab;
     }
 }
