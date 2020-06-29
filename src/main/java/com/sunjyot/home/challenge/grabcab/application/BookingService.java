@@ -1,8 +1,8 @@
 package com.sunjyot.home.challenge.grabcab.application;
 
 import com.sunjyot.home.challenge.grabcab.application.dto.PositionDTO;
-import com.sunjyot.home.challenge.grabcab.application.repository.BookingJdbcRepository;
-import com.sunjyot.home.challenge.grabcab.application.repository.CabJdbcRepository;
+import com.sunjyot.home.challenge.grabcab.application.repository.BookingRepository;
+import com.sunjyot.home.challenge.grabcab.application.repository.CabRepository;
 import com.sunjyot.home.challenge.grabcab.domain.Booking;
 import com.sunjyot.home.challenge.grabcab.domain.Cab;
 import lombok.extern.log4j.Log4j;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -19,18 +18,18 @@ import java.util.Random;
 public class BookingService {
 
     @Autowired
-    private BookingJdbcRepository bookingJdbcRepository;
+    private BookingRepository bookingRepository;
 
     @Autowired
-    private CabJdbcRepository cabJdbcRepository;
+    private CabRepository cabRepository;
 
     public Booking book(PositionDTO position) {
-        List<Cab> cabs = cabJdbcRepository.getAvailableCabs();
+        List<Cab> cabs = cabRepository.getAvailableCabs();
 
         Cab selectedCab = findNearestCab(cabs, position.getFromXAxis(), position.getFromYAxis());
         selectedCab.setOccupied(true);
 
-        cabJdbcRepository.update(selectedCab);
+        cabRepository.update(selectedCab);
 
         Booking booking = new Booking(
                 Math.abs(new Random().nextLong()),
@@ -42,7 +41,7 @@ public class BookingService {
                 position.getToYAxis(),
                 new Timestamp(System.currentTimeMillis()));
 
-        bookingJdbcRepository.insert(booking);
+        bookingRepository.insert(booking);
 
         return booking;
     }
@@ -67,6 +66,6 @@ public class BookingService {
     }
 
     public List<Booking> getUserBookingHistory(Long userId) {
-        return bookingJdbcRepository.getUserBookingHistory(userId);
+        return bookingRepository.getUserBookingHistory(userId);
     }
 }
