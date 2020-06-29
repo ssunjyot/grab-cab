@@ -23,25 +23,43 @@ public class BookingService {
     private CabJdbcRepository cabJdbcRepository;
 
     public Booking book(PositionDTO position) {
-        Long userId = position.getUserId();
-
-        Long fromXAxis = position.getFromXAxis();
-        Long fromYAxis = position.getFromYAxis();
-        Long toXAxis = position.getToXAxis();
-        Long toYAxis = position.getToYAxis();
-
         List<Cab> cabs = cabJdbcRepository.getAvailableCabs();
 
-        Cab selectedCab = cabs.get(0);
+        Cab selectedCab = findNearestCab(cabs, position.getFromXAxis(), position.getFromYAxis());
         selectedCab.setOccupied(true);
 
         cabJdbcRepository.update(selectedCab);
 
-        Booking booking = new Booking(Math.abs(new Random().nextLong()), userId, selectedCab.getId(), fromXAxis, fromYAxis, toXAxis, toYAxis);
+        Booking booking = new Booking(
+                Math.abs(new Random().nextLong()),
+                position.getUserId(),
+                selectedCab.getId(),
+                position.getFromXAxis(),
+                position.getFromYAxis(),
+                position.getToXAxis(),
+                position.getToYAxis());
 
-        log.info(booking.getCabId());
         bookingJdbcRepository.insert(booking);
 
         return booking;
+    }
+
+    public Cab findNearestCab(List<Cab> cabs, Long fromXAxis, Long fromYAxis){
+        Long minDistance = Long.MAX_VALUE;
+        Cab nearestCab = null;
+
+        for (Cab currentCab : cabs){
+            Long distance = ((Double) Math.sqrt(
+                    Math.pow(((Long) Math.abs(fromXAxis - currentCab.getXAxis())).doubleValue(), 2D)
+                            + Math.pow(((Long) Math.abs(fromYAxis - currentCab.getYAxis())).doubleValue(), 2D)
+            )).longValue();
+
+            if(distance<minDistance){
+                minDistance = distance;
+                nearestCab = currentCab;
+            }
+        }
+        
+        return nearestCab;
     }
 }
