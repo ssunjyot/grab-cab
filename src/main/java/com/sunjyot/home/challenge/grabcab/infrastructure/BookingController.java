@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLDataException;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,12 @@ public class BookingController {
 
     @RequestMapping(path = "/book", method = RequestMethod.POST)
     public ResponseEntity book(@RequestBody PositionDTO position){
-        Booking booking = bookingService.book(position);
-        return ResponseEntity.ok("You have successfully booked cab number :" + booking.getCabId());
+        try {
+            Booking booking = bookingService.book(position);
+            return ResponseEntity.ok("You have successfully booked cab number : " + booking.getCabId());
+        } catch (SQLDataException e) {
+            return ResponseEntity.ok("There are no cabs available at this time! Please retry later...");
+        }
     }
 
     @RequestMapping(path = "/user/history", method = RequestMethod.GET)

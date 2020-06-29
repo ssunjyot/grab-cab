@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLDataException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
@@ -23,8 +24,11 @@ public class BookingService {
     @Autowired
     private CabRepository cabRepository;
 
-    public Booking book(PositionDTO position) {
+    public Booking book(PositionDTO position) throws SQLDataException {
         List<Cab> cabs = cabRepository.getAvailableCabs();
+
+        if(cabs.isEmpty())
+            throw new SQLDataException();
 
         Cab selectedCab = findNearestCab(cabs, position.getFromXAxis(), position.getFromYAxis());
         selectedCab.setOccupied(true);
