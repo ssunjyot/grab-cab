@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -25,7 +25,7 @@ public class Booking {
     private Long toXAxis;
     private Long toYAxis;
 
-    private LocalDateTime timestamp;
+    private Timestamp timestamp;
 
     @Override
     public String toString(){

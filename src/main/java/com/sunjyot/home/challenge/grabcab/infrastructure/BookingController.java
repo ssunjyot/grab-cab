@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Log4j
 public class BookingController {
@@ -24,4 +26,17 @@ public class BookingController {
         return ResponseEntity.ok(booking.toString());
     }
 
+    @RequestMapping(path = "/user/history", method = RequestMethod.GET)
+    public ResponseEntity bookingHistory(Long userId){
+        List<Booking> bookings = bookingService.getUserBookingHistory(userId);
+
+        if(bookings.isEmpty())
+            return  ResponseEntity.ok("User has not made any bookings yet!");
+
+        StringBuilder history = new StringBuilder();
+        for(Booking booking : bookings)
+            history.append("Booking ID : " + booking.getId() + " on "+ booking.getTimestamp().toString() + "\n");
+
+        return ResponseEntity.ok(history.toString());
+    }
 }
