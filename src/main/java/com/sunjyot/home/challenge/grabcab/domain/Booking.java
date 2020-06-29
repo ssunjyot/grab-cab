@@ -26,9 +26,5 @@ public class Booking {
     private Long toYAxis;
 
     private Timestamp timestamp;
-
-    @Override
-    public String toString(){
-        return "You have successfully booked cab number : " + this.cabId;
-    }
+    
 }

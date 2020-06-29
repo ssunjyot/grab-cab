@@ -23,7 +23,7 @@ public class BookingController {
     @RequestMapping(path = "/book", method = RequestMethod.POST)
     public ResponseEntity book(@RequestBody PositionDTO position){
         Booking booking = bookingService.book(position);
-        return ResponseEntity.ok(booking.toString());
+        return ResponseEntity.ok("You have successfully booked cab number :" + booking.getCabId());
     }
 
     @RequestMapping(path = "/user/history", method = RequestMethod.GET)
