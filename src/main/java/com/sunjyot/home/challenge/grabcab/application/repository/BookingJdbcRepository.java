@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Log4j
 public class BookingJdbcRepository {
 
     @Autowired
