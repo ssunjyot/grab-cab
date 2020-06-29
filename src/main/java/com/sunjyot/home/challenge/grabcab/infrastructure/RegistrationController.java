@@ -1,7 +1,9 @@
 package com.sunjyot.home.challenge.grabcab.infrastructure;
 
 import com.sunjyot.home.challenge.grabcab.application.RegistrationService;
+import com.sunjyot.home.challenge.grabcab.application.dto.CabDTO;
 import com.sunjyot.home.challenge.grabcab.application.dto.UserDTO;
+import com.sunjyot.home.challenge.grabcab.domain.Cab;
 import com.sunjyot.home.challenge.grabcab.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,12 @@ public class RegistrationController {
     public ResponseEntity createUser(@RequestBody UserDTO userDTO){
         User user = registrationService.createUser(userDTO);
         return ResponseEntity.ok("User created successfully with ID : " + user.getId());
+    }
+
+    @RequestMapping(path = "/cab", method = RequestMethod.POST)
+    public ResponseEntity createCab(@RequestBody CabDTO cabDTO){
+        Cab cab = registrationService.createCab(cabDTO);
+        return ResponseEntity.ok("Cab registered successfully with ID : " + cab.getId());
     }
 
 }

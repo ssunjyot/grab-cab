@@ -35,4 +35,14 @@ public class CabJdbcRepository {
                         cab.getId()
                 });
     }
+
+    public int insert(Cab cab){
+        return jdbcTemplate.update("INSERT INTO CAB (ID, OCCUPIED, XAXIS, YAXIS) " + "VALUES(?, ?, ?, ?)",
+                new Object[] {
+                        cab.getId(),
+                        cab.getOccupied(),
+                        cab.getXAxis(),
+                        cab.getYAxis()
+                });
+    }
 }
