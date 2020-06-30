@@ -57,7 +57,7 @@ public class BookingService {
         return booking;
     }
 
-    public Cab findNearestCab(List<Cab> cabs, Long fromXAxis, Long fromYAxis){
+    private Cab findNearestCab(List<Cab> cabs, Long fromXAxis, Long fromYAxis){
         Long minDistance = Long.MAX_VALUE;
         Cab nearestCab = null;
 

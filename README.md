@@ -43,6 +43,9 @@ Swagger has been used to define the API. It allows for route exploration and tes
 Once the application is run, it can be found at the following address :
 [http://localhost:4444/swagger-ui.html](http://localhost:4444/swagger-ui.html)
 
+Database console can be accessed at :
+http://localhost:4444/h2
+
 ## Designing the solution
 
 Based on the problem statement, I decided to use H2 as the in-memory SQL database and Hibernate as the ORM.

@@ -3,6 +3,8 @@ package com.sunjyot.home.challenge.grabcab.infrastructure;
 import com.sunjyot.home.challenge.grabcab.application.BookingService;
 import com.sunjyot.home.challenge.grabcab.application.dto.PositionDTO;
 import com.sunjyot.home.challenge.grabcab.domain.Booking;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,13 @@ import java.util.List;
 
 @RestController
 @Log4j
+@Api(description = "API endpoints to make bookings and check booking history")
 public class BookingController {
 
     @Autowired
     private BookingService bookingService;
 
+    @ApiOperation(value = "Book the nearest unoccupied cab given a User ID, source and destination(Represented as X and Y co-ordinates)")
     @RequestMapping(path = "/book", method = RequestMethod.POST)
     public ResponseEntity book(@Validated @RequestBody PositionDTO position){
         try {
@@ -36,6 +40,7 @@ public class BookingController {
         }
     }
 
+    @ApiOperation(value = "Fetch booking history for a given User ID")
     @RequestMapping(path = "/user/history", method = RequestMethod.GET)
     public ResponseEntity bookingHistory(Long userId){
         try {
