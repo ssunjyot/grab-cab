@@ -3,6 +3,7 @@ package com.sunjyot.home.challenge.grabcab.application;
 import com.sunjyot.home.challenge.grabcab.application.dto.PositionDTO;
 import com.sunjyot.home.challenge.grabcab.application.repository.BookingRepository;
 import com.sunjyot.home.challenge.grabcab.application.repository.CabRepository;
+import com.sunjyot.home.challenge.grabcab.application.repository.UserRepository;
 import com.sunjyot.home.challenge.grabcab.domain.Booking;
 import com.sunjyot.home.challenge.grabcab.domain.Cab;
 import lombok.extern.log4j.Log4j;
@@ -19,12 +20,18 @@ import java.util.Random;
 public class BookingService {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
     private CabRepository cabRepository;
 
-    public Booking book(PositionDTO position) throws SQLDataException {
+    public Booking book(PositionDTO position) throws SQLDataException, NoSuchFieldException {
+        if(!userRepository.checkUserExistence(position.getUserId()))
+            throw new NoSuchFieldException();
+
         List<Cab> cabs = cabRepository.getAvailableCabs();
 
         if(cabs.isEmpty())
@@ -69,7 +76,9 @@ public class BookingService {
         return nearestCab;
     }
 
-    public List<Booking> getUserBookingHistory(Long userId) {
+    public List<Booking> getUserBookingHistory(Long userId) throws NoSuchFieldException {
+        if(!userRepository.checkUserExistence(userId))
+            throw new NoSuchFieldException();
         return bookingRepository.getUserBookingHistory(userId);
     }
 }

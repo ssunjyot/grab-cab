@@ -5,6 +5,7 @@ import com.sunjyot.home.challenge.grabcab.application.dto.PositionDTO;
 import com.sunjyot.home.challenge.grabcab.domain.Booking;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +27,25 @@ public class BookingController {
         try {
             Booking booking = bookingService.book(position);
             return ResponseEntity.ok("You have successfully booked cab number : " + booking.getCabId());
-        } catch (SQLDataException e) {
-            return ResponseEntity.ok("There are no cabs available at this time! Please retry later...");
+        } catch (Exception e) {
+            if (e.getClass() == SQLDataException.class)
+                return ResponseEntity.ok("There are no cabs available at this time! Please retry later...");
+            else
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(path = "/user/history", method = RequestMethod.GET)
     public ResponseEntity bookingHistory(Long userId){
-        List<Booking> bookings = bookingService.getUserBookingHistory(userId);
+        try {
+            List<Booking> bookings = bookingService.getUserBookingHistory(userId);
 
-        if(bookings.isEmpty())
-            return  ResponseEntity.ok("User has not made any bookings yet!");
+            if(bookings.isEmpty())
+                return  ResponseEntity.ok("User has not made any bookings yet!");
 
-        return ResponseEntity.ok(bookings);
+            return ResponseEntity.ok(bookings);
+        } catch (NoSuchFieldException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }
