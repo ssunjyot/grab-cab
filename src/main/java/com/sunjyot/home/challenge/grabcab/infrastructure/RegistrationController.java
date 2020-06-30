@@ -7,6 +7,7 @@ import com.sunjyot.home.challenge.grabcab.domain.Cab;
 import com.sunjyot.home.challenge.grabcab.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +20,13 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @RequestMapping(path = "/user", method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity createUser(@Validated @RequestBody UserDTO userDTO){
         User user = registrationService.createUser(userDTO);
         return ResponseEntity.ok("User created successfully with ID : " + user.getId());
     }
 
     @RequestMapping(path = "/cab", method = RequestMethod.POST)
-    public ResponseEntity createCab(@RequestBody CabDTO cabDTO){
+    public ResponseEntity createCab(@Validated @RequestBody CabDTO cabDTO){
         Cab cab = registrationService.createCab(cabDTO);
         return ResponseEntity.ok("Cab registered successfully with ID : " + cab.getId());
     }
